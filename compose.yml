@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  server:
+    container_name: 'Retail-Site-Location-DSS-BE'
+    build: ./server
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./server/init.yaml:/app/init.yaml
+      - ./server/data:/app/data
+      - ./server/database:/app/database
+  client:
+    container_name: 'Retail-Site-Location-DSS-FE'
+    build: 
+      context: ./client
+    ports: 
+      - "3000:3000"
+    volumes:
+      - ./client/src:/client/src
+      - ./client/package.json:/client/package.json
+      - /node_modules
+    stdin_open: true
+    tty: true
+    depends_on:
+      - server

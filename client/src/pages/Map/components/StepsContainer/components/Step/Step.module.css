@@ -1,0 +1,63 @@
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 90px;
+}
+
+.circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #e5e5e5;
+    color: #e5e5e5;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: relative;
+}
+
+.current .circle {
+    border: 2px solid var(--violet);
+    color: var(--violet);
+}
+
+.done .circle {
+    border: 2px solid var(--violet-disable);
+    color: var(--violet-disable);
+}
+
+.current .stepText {
+    color: var(--violet);
+}
+
+.done .stepText {
+    color: var(--violet-disable);
+}
+
+.step:not(:last-child) .circle::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 2px);
+    width: 46px;
+    height: 2px;
+    background-color: #e5e5e5;
+}
+
+.done:not(:last-child) .circle::after {
+    background-color: var(--violet-disable);
+}
+
+.circleIcon {
+    display: block;
+    font-size: 24px;
+    margin: auto;
+}
+
+.stepText {
+    font-size: 12px;
+    text-align: center;
+    color: #e5e5e5;
+}

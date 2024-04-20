@@ -1,0 +1,14 @@
+.noSitesSvg {
+    width: 100%;
+    height: 100%;
+    background-size: 60%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.highlightedText {
+    color: var(--violet);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: underline;
+}

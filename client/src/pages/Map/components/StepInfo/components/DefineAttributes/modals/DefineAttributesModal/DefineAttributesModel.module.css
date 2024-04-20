@@ -1,0 +1,66 @@
+.container {
+    display: flex;
+    flex-direction: column; 
+    gap: 8px;
+}
+
+.btnAdd{
+    border: none;
+    background-color: transparent;
+    color: var(--violet);
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btnAdd svg {
+    font-size: 18px;
+}
+
+.actions{
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+}
+
+.arrows{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 200px;
+    min-height: 100px;
+    overflow-y: auto;
+}
+
+.arrowBtn{
+    background-color: transparent;
+    border: none;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+.pagination{
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
+
+.paginationCircle {
+    width: 8px;
+    height: 8px;
+    background-color: #d8d8d8;
+    border-radius: 50%;
+}
+
+.paginationCircleActive {
+    background-color: var(--violet);
+}

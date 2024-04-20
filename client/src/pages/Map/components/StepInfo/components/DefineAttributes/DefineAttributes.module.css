@@ -1,0 +1,17 @@
+.statusIcon {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: 12px;
+    background-color: var(--white);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.statusError {
+    color: rgb(187, 64, 64);
+}
+
+.statusOk {
+    color: rgb(91, 187, 64);
+}

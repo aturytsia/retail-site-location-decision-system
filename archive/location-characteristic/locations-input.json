@@ -1,0 +1,52 @@
+{
+    "locations": [
+        {
+            "name": "L1",
+            "salesFloorArea": 985,
+            "numberOfParkingPlaces": 14,
+            "numberOfDepartments": 12,
+            "numberOfCheckouts": 6,
+            "coordinates": [
+                16.634190668000031,
+                49.137747711000031,
+                0.0
+            ]
+        },
+        {
+            "name": "L2",
+            "salesFloorArea": 1245,
+            "numberOfParkingPlaces": 32,
+            "numberOfDepartments": 14,
+            "numberOfCheckouts": 9,
+            "coordinates": [
+                16.634190677000049,
+                49.137747715000046,
+                0.0
+            ]
+        },
+        {
+            "name": "L3",
+            "salesFloorArea": 1064,
+            "numberOfParkingPlaces": 22,
+            "numberOfDepartments": 16,
+            "numberOfCheckouts": 8,
+            "coordinates": [
+                16.58678704700003,
+                49.210248413000045,
+                0.0
+            ]
+        },
+        {
+            "name": "L4",
+            "salesFloorArea": 1024,
+            "numberOfParkingPlaces": 24,
+            "numberOfDepartments": 15,
+            "numberOfCheckouts": 9,
+            "coordinates": [
+                16.586560644000031,
+                49.210314678000032,
+                0.0
+            ]
+        }
+    ]
+}

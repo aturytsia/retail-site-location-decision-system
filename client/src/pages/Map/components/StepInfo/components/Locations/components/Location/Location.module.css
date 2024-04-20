@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #dfdfdf;
+    padding: 12px;
+    /* border-radius: 8px; */
+}
+
+.name {
+    font-size: 14px;
+    width: 100%;
+}
+
+.icon {
+    font-size: 16px;
+}
+
+.index {
+    padding-right: 6px;
+    font-weight: 500;
+    color: #4c4c4c;
+}
+
+.actions {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    position: relative;
+}

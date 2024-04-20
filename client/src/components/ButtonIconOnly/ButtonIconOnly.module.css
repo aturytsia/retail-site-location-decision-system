@@ -1,0 +1,25 @@
+.container {
+    color: #a8a8a8;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    font-size: 15px;
+    width: 25px;
+    height: 25px;
+    transition: .1s;
+    border: none;
+    aspect-ratio: 1;
+    background-color: transparent;
+}
+
+.container:hover {
+    background-color: #ededed;
+}
+
+.container:disabled:hover {
+    background-color: transparent;
+}
+
+.container:disabled {
+    cursor: not-allowed;
+}

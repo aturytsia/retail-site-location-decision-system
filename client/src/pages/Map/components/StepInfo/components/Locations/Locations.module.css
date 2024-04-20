@@ -1,0 +1,7 @@
+.container {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    overflow-y: auto;
+}

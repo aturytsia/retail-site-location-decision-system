@@ -1,0 +1,28 @@
+.btn {
+    padding: 10px;
+    border: none;
+    text-align: center;
+    border-radius: 8px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.primary {
+    background-color: var(--violet);
+    color: var(--white);
+}
+
+.default {
+    background-color: var(--white) !important;
+    color: var(--violet) !important;
+}
+
+.btn:disabled {
+    background-color: rgb(225, 225, 225);
+    color: rgb(135, 137, 141);
+    cursor: not-allowed;
+}

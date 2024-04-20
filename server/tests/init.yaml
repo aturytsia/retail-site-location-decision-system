@@ -1,0 +1,6 @@
+area: "Brno, Czech Republic"
+customers: "tests/customers.json"
+competitors:
+  test:
+    distanceDecay: 1.5
+    path: "tests/competitors.json"

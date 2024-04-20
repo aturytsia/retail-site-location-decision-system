@@ -1,0 +1,12 @@
+area: "Brno, Czech Republic"
+customers: "./database/demo/customers.json"
+competitors:
+  alcohol:
+    path: "./database/demo/alcohol.json"
+    distanceDecay: 1.5
+  flowers:
+    path: "./database/demo/flowers.json"
+    distanceDecay: 2
+  groceries:
+    path: "./database/demo/groceries.json"
+    distanceDecay: 2.5
