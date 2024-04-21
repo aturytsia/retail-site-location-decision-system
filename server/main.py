@@ -136,7 +136,7 @@ def area(body: DatasetRequired):
         return {"area": {} }
     customers = read_dataset(config.customers, is_testing)
     competitors = read_dataset(competitor.path, is_testing)
-    area = get_geocompetition(customers, competitors, f"./{'tests' if is_testing else 'data'}/{body.dataset}.csv", True, competitor.distanceDecay)
+    area = get_geocompetition(customers, competitors, f"./{'tests' if is_testing else 'data'}/{body.dataset}.json", True, competitor.distanceDecay)
     return {"area": area}
 
 @app.post(Urls.Result.value, tags=["Result"])

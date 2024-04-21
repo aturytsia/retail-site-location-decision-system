@@ -12,6 +12,7 @@ import geopandas as gpd
 import numpy as np
 from shapely.geometry import Point
 import threading
+import json
 
 from settings import (
     CONFIG,
@@ -220,16 +221,18 @@ def get_probability(attractiveness: pd.Series, time: pd.Series, distance_decay: 
     return attractiveness / (time ** distance_decay)
 
 def read_from_cache(path: str) -> pd.DataFrame | None:
-    try:    
-        df = pd.read_csv(path)
-        df = df.dropna()
-        return df
-    except Exception:
+    try:
+        with open(path, "r") as file:
+            return json.loads(file.read())
+    except Exception as e:
+        print(str(e))
         return None
     
 def save_to_cache(df: pd.DataFrame, path: str) -> None:
     try:
-        df.to_csv(path)
+        with open(path, 'w') as json_file:
+            data = [(row['y'], row['x'], row['probability']) for _, row in df.iterrows()]
+            json.dump(data, json_file)
     except OSError as e:
         print(str(e))
 
@@ -245,10 +248,10 @@ def get_geocompetition(
     
     # Use cached results if they exist
     if cache_path and use_cache:
-        cached_df = read_from_cache(cache_path)
+        cached_data = read_from_cache(cache_path)
 
-        if cached_df is not None:
-            return [(row['y'], row['x'], row['probability']) for _, row in cached_df.iterrows()]
+        if cached_data is not None:
+            return cached_data
 
     debug("Creating dataframes...")
 
@@ -381,8 +384,7 @@ def estimate_geocompetition(config: Config, is_testing: bool = False):
 
     def estimate(dataset_key: str, path: str, distance_decay: float = 1.5) -> None:
         competitors = read_dataset(path)
-
-        _ = get_geocompetition(customers, competitors, f"./{'tests' if is_testing else 'data'}/{dataset_key}.csv", True, distance_decay)
+        _ = get_geocompetition(customers, competitors, f"./{'tests' if is_testing else 'data'}/{dataset_key}.json", True, distance_decay)
 
     threads = []
     for dataset_key, competitor in config.competitors.items():
