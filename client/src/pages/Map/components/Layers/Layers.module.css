@@ -1,3 +1,8 @@
 .dropdown {
     width: 100%;
 }
+
+.message {
+    font-size: 14px;
+    text-align: center;
+}

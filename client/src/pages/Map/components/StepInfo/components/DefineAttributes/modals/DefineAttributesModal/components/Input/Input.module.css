@@ -38,3 +38,43 @@
 .dropdown {
     flex: 1;
 }
+
+.starContainer {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+    font-size: 18px;
+    background-color: var(--white);
+    padding: 7px;
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+}
+
+.inputContainer {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+}
+
+@media only screen and (max-width: 600px) {
+    .starContainer {
+        font-size: 14px;
+    }
+    /* .key {
+        
+    } */
+    .dropdown {
+        width: 100%;
+    }
+    .maxValue,
+    .key {
+        /* width: 100%; */
+        font-size: 14px;
+        padding: 0;
+    }
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}

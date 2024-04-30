@@ -178,22 +178,22 @@ const useMap = () => {
                 const grid = config.grid.map(polygon => inversePoints(polygon) as PolygonType)
 
                 map.setGridLayer(grid)
-                setDataset(dataset)
+                // setDataset(dataset)
     
                 const customers = await fetchCustomers()
     
                 map.setCustomersLayer(customers)
                 setCustomers(customers)
     
-                const competitors = await fetchCompetitorsByDataset(dataset)
+                // const competitors = await fetchCompetitorsByDataset(dataset)
     
-                map.setCompetitorsLayer(competitors)
-                setCompetitors(competitors)
+                // map.setCompetitorsLayer(competitors)
+                // setCompetitors(competitors)
     
-                const area = await fetchAreasOfHighDemandByDataset(dataset)
+                // const area = await fetchAreasOfHighDemandByDataset(dataset)
     
-                map.setHeatLayer(area)
-                setAreaOfHighDemand(area)
+                // map.setHeatLayer(area)
+                // setAreaOfHighDemand(area)
 
                 toggleHeatLayer()
 
@@ -211,7 +211,11 @@ const useMap = () => {
 
     const changeDataset = useCallback(
         async (dataset: string) => {
+
+            if(!dataset) return
+
             try {
+                setLoadingStatus(LoadingStatus.Fetching)
                 const area = await fetchAreasOfHighDemandByDataset(dataset)
 
                 map.setHeatLayer(area)
@@ -221,11 +225,13 @@ const useMap = () => {
 
                 map.setCompetitorsLayer(competitors)
                 setCompetitors(competitors)
-
+                
                 setDataset(dataset)
             } catch (error) {
                 console.error(error)
                 setLoadingStatus(LoadingStatus.Error)
+            } finally {
+                setLoadingStatus(LoadingStatus.None)
             }
         },
         [map]
@@ -276,11 +282,11 @@ const useMap = () => {
 
     useEffect(
         () => {
-            if(dataset === null) return
+            if(config.datasets.length === 0) return
 
             setLoadingStatus(LoadingStatus.None)
         },
-        [areaOfHighDemand]
+        [config.datasets]
     )
 
 

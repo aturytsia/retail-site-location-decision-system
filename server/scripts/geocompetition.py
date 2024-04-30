@@ -13,6 +13,7 @@ import numpy as np
 from shapely.geometry import Point
 import threading
 import json
+from scipy.stats import gaussian_kde
 
 from settings import (
     CONFIG,
@@ -225,13 +226,12 @@ def read_from_cache(path: str) -> pd.DataFrame | None:
         with open(path, "r") as file:
             return json.loads(file.read())
     except Exception as e:
-        print(str(e))
+        # print(str(e))
         return None
     
-def save_to_cache(df: pd.DataFrame, path: str) -> None:
+def save_to_cache(data: list[tuple[float, float, float]], path: str) -> None:
     try:
         with open(path, 'w') as json_file:
-            data = [(row['y'], row['x'], row['probability']) for _, row in df.iterrows()]
             json.dump(data, json_file)
     except OSError as e:
         print(str(e))
@@ -243,6 +243,8 @@ def get_geocompetition(
     use_cache: bool = True,
     distance_decay: float = 1.5
 ) -> list[tuple[float, float, float]]:
+    
+    # print(f"Estimating {cache_path}")
 
     debug("Checking if data was already evaluated...")
     
@@ -338,7 +340,7 @@ def get_geocompetition(
         # Sometimes time = 0 in gdf_competitors_merged. It can happen if customer and competitor are in the same grid
         gdf_customers_merged.loc[gdf_customers_merged["time"] == 0, "time"] = 1
 
-        probabilities_sum = get_probability(area * gdf_customers_merged["count"], gdf_customers_merged["time"], distance_decay).sum()
+        probabilities_sum = get_probability(area, gdf_customers_merged["time"], distance_decay).sum()
 
         # List with probabilities of all customers going to the current competitor
         probabilities = []
@@ -347,15 +349,15 @@ def get_geocompetition(
             customer = gdf_customers_merged.loc[customer_index]
             
             time = customer["time"]
-            count = customer["count"]
             
-            probability = get_probability(area * count, time, distance_decay) / probabilities_sum
+            probability = (get_probability(area, time, distance_decay) / probabilities_sum)
 
             probabilities.append(probability)
         
         # List with probabilities of all customers going to all the compatitors
         probabilities_list.append(np.array(probabilities))
-    
+
+
     # Sometimes probabilities_list contains differently sized arrays, for this reason we add padding
     max_length = max(len(arr) for arr in probabilities_list)
     
@@ -367,16 +369,41 @@ def get_geocompetition(
     result = gdf_customers_merged
     
     # Add average probability of visiting all the competitors to the customers
-    result["probability"] = overall_probability
+    result["probability"] = overall_probability # TODO comment 1 -
     
     result.drop(columns=["geometry", "index_right", "center"], inplace=True)
     result = result.dropna()
     result = result.map(fix_float)
+
+    result = np.array([(row['y'], row['x'], row['probability']) for _, row in result.iterrows()])
+    customers = np.array(customers)
+
+    people_latitudes = customers[:, 0]
+    people_longitudes = customers[:, 1]
+    people_values = customers[:, 2]
+
+    probability_latitudes = result[:, 0]
+    probability_longitudes = result[:, 1]
+    probability_values = result[:, 2]
+
+    # Perform kernel density estimation for both datasets
+    people_kde = gaussian_kde(np.vstack([people_latitudes, people_longitudes]), weights=people_values)
+    probability_kde = gaussian_kde(np.vstack([probability_latitudes, probability_longitudes]), weights=probability_values)
+
+    # Generate a grid of points covering the area of interest
+    grid_lat, grid_lng = np.meshgrid(np.linspace(min(people_latitudes), max(people_latitudes), 200),
+                                    np.linspace(min(people_longitudes), max(people_longitudes), 200))
+
+    # Combine the density estimates from both datasets
+    combined_density = people_kde(np.vstack([grid_lat.ravel(), grid_lng.ravel()])) * \
+                    probability_kde(np.vstack([grid_lat.ravel(), grid_lng.ravel()]))
+
+    data = list(zip(grid_lat.ravel(), grid_lng.ravel(), combined_density))
     
     if cache_path:
-        save_to_cache(result, cache_path)
+        save_to_cache(data, cache_path)
     
-    return [(row['y'], row['x'], row['probability']) for _, row in result.iterrows()]
+    return data
 
 
 def estimate_geocompetition(config: Config, is_testing: bool = False):

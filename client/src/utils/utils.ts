@@ -45,6 +45,8 @@ export type ReverseGeocodeFuncType = (latlng: L.LatLng) => Promise<ReturnType<Sh
 const shortenAddress: ShortenAddressFuncType = (address) => {
     let shortenedAddress = '';
 
+    if(!address) return ""
+
     // Priority order: city > suburb > road > house_number > country
     if (address.city != null) {
         shortenedAddress += address.city + ', ';

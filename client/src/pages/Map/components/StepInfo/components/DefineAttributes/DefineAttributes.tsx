@@ -16,6 +16,7 @@ import ButtonIconOnly from '../../../../../../components/ButtonIconOnly/ButtonIc
 import classNames from 'classnames';
 import { IAttribute } from '../../../../../../utils/types';
 import StepContent from '../StepContent/StepContent';
+import Popover from '../../../../../../components/Popover/Popover';
 
 /** Initial attribute state. */
 const initialAttribute: IAttribute = { key: "", value: "", maxValue: "" };
@@ -35,6 +36,16 @@ const DefineAttributes: React.FC = () => {
     const [activeMarkerIndex, setActiveMarkerIndex] = useState<number | null>(null);
 
     const [error, setError] = useState<string>("");
+
+    const [isBeginner, setIsBeginner] = useState<boolean>(true)
+
+    const enableBeginnerHandler = () => {
+        setIsBeginner(true)
+    }
+
+    const disableBeginnerHandler = () => {
+        setIsBeginner(false)
+    }
 
     /** Checks if any attribute for a marker is empty. */
     const isMarkerAttributesEmpty = (markerIndex: number): boolean => {
@@ -70,13 +81,13 @@ const DefineAttributes: React.FC = () => {
     };
 
     /** Creates a new attribute. */
-    const createAttribute = (): void => {
+    const createAttribute = (attributeName?: string): void => {
         if (activeMarkerIndex === null) return;
 
         if (markersAttributes[activeMarkerIndex].length >= 6) return;
 
         setMarkersAttributes(prev => prev.map(markerAttributes => {
-            return [...markerAttributes, initialAttribute];
+            return [...markerAttributes, {...initialAttribute, key: attributeName ?? ""}];
         }));
     };
 
@@ -84,7 +95,7 @@ const DefineAttributes: React.FC = () => {
     const deleteAttribute = (attributeIndex: number): void => {
         if (activeMarkerIndex === null) return;
 
-        if (markersAttributes[0].length <= 3) return;
+        // if (markersAttributes[0].length <= 3) return;
 
         setMarkersAttributes(prev => prev.map(markerAttributes => markerAttributes.filter((_, i) => i !== attributeIndex)));
     };
@@ -110,6 +121,40 @@ const DefineAttributes: React.FC = () => {
         }));
     };
 
+    const resetAttributes = () => {
+        setMarkersAttributes(prev => prev.map((markerAttributes, i) => {
+
+            return markerAttributes.map((attribute, j) => {
+
+                return { 
+                    ...attribute,
+                    value: "",
+                    maxValue: "",
+                };
+            });
+        }));
+    }
+
+    const resetAttributesRow = (key: string) => {
+        const rowIndex = markersAttributes[0].findIndex(({key: k}) => k === key)
+
+        setMarkersAttributes(prev => prev.map(markerAttributes => {
+
+            return markerAttributes.map((attributes, i) => {
+
+                if (rowIndex === i){
+                    return {
+                        ...attributes,
+                        value: "",
+                        maxValue: ""
+                    }
+                }
+
+                return attributes
+            })
+        }))
+    }
+
     /** Handles the next step. */
     const getNextStepHandler = (): void => {
         markers.map((marker, i) => marker.setAttributes(markersAttributes[i]));
@@ -124,7 +169,7 @@ const DefineAttributes: React.FC = () => {
 
     useEffect(
         () => {
-            const maxValueLowerThanValue = markersAttributes.some(markerAttributes => markerAttributes.some(({ maxValue, value}) => maxValue ? +maxValue < +value : false));
+            const maxValueLowerThanValue = markersAttributes.some(markerAttributes => markerAttributes.some(({ maxValue, value}) => (maxValue && value) ? +maxValue < +value : false));
             const theSameKeysEncountered = markersAttributes.some(markerAttributes => {
                 const keys = markerAttributes.map(({ key }) => key);
                 const keysSet = new Set(keys);
@@ -148,26 +193,35 @@ const DefineAttributes: React.FC = () => {
         <StepContent
             getNextSystemStatus={getNextStepHandler}
             getPrevSystemStatus={getPrevSystemStatusHandler}
-            nextSystemStatusDisabled={isAnyAttributeEmpty || !!error} 
+            nextSystemStatusDisabled={isAnyAttributeEmpty || !!error || markersAttributes[0].length < 3} 
         >
             <Locations
                 renderLocationActions={
                     i => (
-                        <>
-                            <ButtonIconOnly 
-                                icon={icons.open}
-                                onClick={() => setActiveMarkerIndex(i)}
-                            />
-                            <Icon 
-                                className={classNames(classes.statusIcon, isMarkerAttributesEmpty(i) || !!error ? classes.statusError : classes.statusOk)} 
-                                icon={isMarkerAttributesEmpty(i) || !!error ? icons.warning : icons.check} 
-                            />
-                        </>
+                        <Popover
+                            element={(
+                                <span>
+                                <ButtonIconOnly 
+                                    icon={icons.open}
+                                    onClick={() => setActiveMarkerIndex(i)}
+                                />
+                                <Icon 
+                                    className={classNames(classes.statusIcon, isMarkerAttributesEmpty(i) || !!error ? classes.statusError : classes.statusOk)} 
+                                    icon={isMarkerAttributesEmpty(i) || !!error ? icons.warning : icons.check} 
+                                />
+                            </span>
+                            )}
+                        >
+                            Define location attributes for {markers[i].getName()}
+                        </Popover>
                     )
                 }
             />
             {activeMarkerIndex !== null && (
                 <DefineAttributesModal
+                    isBeginner={isBeginner}
+                    enableBeginner={enableBeginnerHandler}
+                    disableBeginner={disableBeginnerHandler}
                     error={error}
                     markersAttributes={markersAttributes}
                     activeMarkerIndex={activeMarkerIndex}
@@ -177,6 +231,8 @@ const DefineAttributes: React.FC = () => {
                     nextActiveMarkerIndex={nextActiveMarkerIndex}
                     prevActiveMarkerIndex={prevActiveMarkerIndex}
                     onClose={() => setActiveMarkerIndex(null)}
+                    resetAttributes={resetAttributes}
+                    resetAttributesRow={resetAttributesRow}
                 />
             )}
         </StepContent>

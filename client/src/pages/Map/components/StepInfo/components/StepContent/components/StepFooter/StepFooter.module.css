@@ -10,17 +10,11 @@
 }
 
 .btnBack {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 40px;
     height: 38px;
     aspect-ratio: 1;
     font-size: 24px;
     border: none;
-    color: var(--violet);
-    background-color: #ebe8ff;
-    border-radius: 8px;
 }
 
 .btn {

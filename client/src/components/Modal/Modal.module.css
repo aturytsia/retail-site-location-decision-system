@@ -7,13 +7,21 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    position: relative;
+}
+
+.headerContent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
 }
 
 .header {
     padding: 16px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    gap: 16px;
+    flex-direction: column;
     width: 100%;
     border-radius: 3px 3px 0 0;
 }
@@ -57,6 +65,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    z-index: 1;
 }
 
 .errorContainer {
@@ -72,4 +81,22 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
+}
+
+.headerActions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+@media only screen and (max-width: 600px) {
+    .container {
+        width: 80%;
+    }
+    .header {
+        /* flex-direction: column; */
+    }
+    .headerTitle {
+        font-size: 16px;
+    }
 }

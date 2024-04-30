@@ -77,6 +77,90 @@ class Competitors(TypedDict):
 
 T = TypeVar('T')
 
+TYPES = [
+    'SP - sportovní oděvy', 
+    'AUTO - motopříslušenství', 
+    'OST - knihy', 
+    'AUTO - moto', 
+    'POTR - cukrárna', 
+    'DOM - umělecké předměty', 
+    'OST - suvenýry', 
+    'NAB - kuchyně', 
+    'OBL - dětské zboží', 
+    'DOM - domácí potřeby', 
+    'KL - klenoty, zlatnictví', 
+    'DOM - bytový textil', 
+    'STAV - bazény', 
+    'DROG - prací a čisticí prostředky', 
+    'OBUV - obuv', 'STAV - stavebniny', 
+    'EL - elektromateriál', 
+    'DOM - železářství, domácí dílna', 
+    'POTR - lahůdky', 'DOM - keramika', 
+    'DOM - květiny', 'OST - smíšené sortimenty', 
+    'HUD - music shop', 
+    'POTR - maso - uzeniny', 
+    'DOM - sklo, porcelán', 'EL - svítidla', 
+    'NAB - sanita', 
+    'STAV - instalační materiál, technika', 
+    'POTR - pečivo', 
+    'POTR - alkoholické nápoje', 
+    'OST - oční optika', 
+    'OBL - punčochové zboží, spodní prádlo, plavk', 
+    'OST - lékárna', 
+    'POTR - cukrovinky', 
+    'OBL - smíšený textil', 
+    'DROG - kadeřnické potřeby', 
+    'PC - komunikační technika', 
+    'KL - bižuterie', 
+    'OST - armyshop', 
+    'KL - hodiny', 
+    'STAV - hobbymarket', 
+    'NAB - nábytek', 
+    'POTR - nápoje', 
+    'EL - foto-kino', 
+    'OBL - galanterie', 
+    'STAV - zahrádkářské potřeby', 
+    'DROG - kosmetika, parfumerie', 
+    'ZOO - chovatelské potřeby', 
+    'OBL - metráž', 
+    'PAP - kancelářské potřeby', 
+    'PAP - papírnictví', 
+    'POTR - tabák, trafika', 
+    'EL - elektro', 
+    'AUTO - autobazar', 
+    'POTR - káva, čaj, kakao', 
+    'OST - zastavárna', 
+    'OBL - kožené zboží', 
+    'PC - mobilní telefony', 
+    'PC - počítače, software', 
+    'OBL - oděvy', 
+    'POTR - ryby', 
+    'AUTO - autosalon', 
+    'DROG - barvy-laky', 
+    'SP - zbraně, střelivo', 
+    'AUTO - autopříslušenství', 
+    'POTR - potraviny', 
+    'OST - zdravotnické potřeby', 
+    'OST - klíče, zámky', 
+    'OST - sexshop', 
+    'POTR - ovoce - zelenina', 
+    'SP - sport', 
+    'NAB - kancelářský nábytek', 
+    'KL - starožitnosti', 
+    'OST - filatelie', 
+    'OST - dárky', 
+    'NAB - podlahové krytiny, dveře', 
+    'HUD - hudební nástroje', 
+    'OST - antikvariát', 
+    'DROG - drogerie', 
+    'DOM - doplňky', 
+    'PAP - hračky', 
+    'DOM - kuchyňské potřeby', 
+    'HUD - audio a video', 
+    'DOM - bytové předměty'
+]
+
+types = {key: [] for key in TYPES}
 
 def read_json_file(path_to_file: str, cls: Type[T]) -> T:
     try:
@@ -103,7 +187,7 @@ def serialize_customers():
         lat = feature.get("geometry").get("coordinates")[1]
         features.append((lat, lng, count))
         
-    write_json_file("customers-formatted.json", features)
+    write_json_file("customers.json", features)
     
 
 def serialize_competitors():
@@ -116,26 +200,34 @@ def serialize_competitors():
         "401 - 1 000": 700,
         "1 001 - 3 000": 2000
     }
-    print(1)
-    features = []
+
     for feature in competitors.get("features"):
         area = feature.get("properties").get("plocha")
         feature_type = feature.get("properties").get("zbozi_typ")
-        
-        if feature_type != "POTR - alkoholické nápoje":
-            continue
+
         if area not in area_format:
             continue
-        
-        lng = feature.get("geometry").get("coordinates")[0]
-        lat = feature.get("geometry").get("coordinates")[1]
-        features.append((lat, lng, area_format[area]))
-    write_json_file("alcohol.json", features)
+
+        if feature_type in types:
+            lng = feature.get("geometry").get("coordinates")[0]
+            lat = feature.get("geometry").get("coordinates")[1]
+            types[feature_type].append((lat, lng, area_format[area]))
+
+    for key, data in types.items():
+        write_json_file(f"{key.replace(' ', '-')}.json", data)
     
     
 def main() -> None:
     serialize_customers()
     serialize_competitors()
+    # print("competitors:")
+    # for i, key in enumerate(types.keys(), 1):
+    #     print(f" {key.replace(' ', '-')}:")
+    #     print(f"  path: ./database/demo/{key.replace(' ', '-')}.json")
+    #     print("  distanceDecay: 1.5")
+
+        # path: "./database/demo/alcohol.json"
+        # distanceDecay: 1.5
 
 if __name__ == "__main__":
     main()

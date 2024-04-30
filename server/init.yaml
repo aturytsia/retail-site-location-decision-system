@@ -1,12 +1,255 @@
 area: "Brno, Czech Republic"
 customers: "./database/demo/customers.json"
 competitors:
-  alcohol:
-    path: "./database/demo/alcohol.json"
-    distanceDecay: 1.5
-  flowers:
-    path: "./database/demo/flowers.json"
-    distanceDecay: 2
-  groceries:
-    path: "./database/demo/groceries.json"
-    distanceDecay: 2.5
+ AUTO---autobazar:
+  path: ./database/demo/AUTO---autobazar.json
+  distanceDecay: 1.5
+ SP---sportovní-oděvy:
+  path: ./database/demo/SP---sportovní-oděvy.json
+  distanceDecay: 1.5
+ AUTO---motopříslušenství:
+  path: ./database/demo/AUTO---motopříslušenství.json
+  distanceDecay: 1.5
+ OST---knihy:
+  path: ./database/demo/OST---knihy.json
+  distanceDecay: 1.5
+ AUTO---moto:
+  path: ./database/demo/AUTO---moto.json
+  distanceDecay: 1.5
+ POTR---cukrárna:
+  path: ./database/demo/POTR---cukrárna.json
+  distanceDecay: 1.5
+ DOM---umělecké-předměty:
+  path: ./database/demo/DOM---umělecké-předměty.json
+  distanceDecay: 1.5
+ OST---suvenýry:
+  path: ./database/demo/OST---suvenýry.json
+  distanceDecay: 1.5
+ NAB---kuchyně:
+  path: ./database/demo/NAB---kuchyně.json
+  distanceDecay: 1.5
+ OBL---dětské-zboží:
+  path: ./database/demo/OBL---dětské-zboží.json
+  distanceDecay: 1.5
+ DOM---domácí-potřeby:
+  path: ./database/demo/DOM---domácí-potřeby.json
+  distanceDecay: 1.5
+ KL---klenoty,-zlatnictví:
+  path: ./database/demo/KL---klenoty,-zlatnictví.json
+  distanceDecay: 1.5
+ DOM---bytový-textil:
+  path: ./database/demo/DOM---bytový-textil.json
+  distanceDecay: 1.5
+ STAV---bazény:
+  path: ./database/demo/STAV---bazény.json
+  distanceDecay: 1.5
+ DROG---prací-a-čisticí-prostředky:
+  path: ./database/demo/DROG---prací-a-čisticí-prostředky.json
+  distanceDecay: 1.5
+ OBUV---obuv:
+  path: ./database/demo/OBUV---obuv.json
+  distanceDecay: 1.5
+ STAV---stavebniny:
+  path: ./database/demo/STAV---stavebniny.json
+  distanceDecay: 1.5
+ EL---elektromateriál:
+  path: ./database/demo/EL---elektromateriál.json
+  distanceDecay: 1.5
+ DOM---železářství,-domácí-dílna:
+  path: ./database/demo/DOM---železářství,-domácí-dílna.json
+  distanceDecay: 1.5
+ POTR---lahůdky:
+  path: ./database/demo/POTR---lahůdky.json
+  distanceDecay: 1.5
+ DOM---keramika:
+  path: ./database/demo/DOM---keramika.json
+  distanceDecay: 1.5
+ DOM---květiny:
+  path: ./database/demo/DOM---květiny.json
+  distanceDecay: 1.5
+ OST---smíšené-sortimenty:
+  path: ./database/demo/OST---smíšené-sortimenty.json
+  distanceDecay: 1.5
+ HUD---music-shop:
+  path: ./database/demo/HUD---music-shop.json
+  distanceDecay: 1.5
+ POTR---maso---uzeniny:
+  path: ./database/demo/POTR---maso---uzeniny.json
+  distanceDecay: 1.5
+ DOM---sklo,-porcelán:
+  path: ./database/demo/DOM---sklo,-porcelán.json
+  distanceDecay: 1.5
+ EL---svítidla:
+  path: ./database/demo/EL---svítidla.json
+  distanceDecay: 1.5
+ NAB---sanita:
+  path: ./database/demo/NAB---sanita.json
+  distanceDecay: 1.5
+ STAV---instalační-materiál,-technika:
+  path: ./database/demo/STAV---instalační-materiál,-technika.json
+  distanceDecay: 1.5
+ POTR---pečivo:
+  path: ./database/demo/POTR---pečivo.json
+  distanceDecay: 1.5
+ POTR---alkoholické-nápoje:
+  path: ./database/demo/POTR---alkoholické-nápoje.json
+  distanceDecay: 1.5
+ OST---oční-optika:
+  path: ./database/demo/OST---oční-optika.json
+  distanceDecay: 1.5
+ OBL---punčochové-zboží,-spodní-prádlo,-plavk:
+  path: ./database/demo/OBL---punčochové-zboží,-spodní-prádlo,-plavk.json
+  distanceDecay: 1.5
+ OST---lékárna:
+  path: ./database/demo/OST---lékárna.json
+  distanceDecay: 1.5
+ POTR---cukrovinky:
+  path: ./database/demo/POTR---cukrovinky.json
+  distanceDecay: 1.5
+ OBL---smíšený-textil:
+  path: ./database/demo/OBL---smíšený-textil.json
+  distanceDecay: 1.5
+ DROG---kadeřnické-potřeby:
+  path: ./database/demo/DROG---kadeřnické-potřeby.json
+  distanceDecay: 1.5
+ PC---komunikační-technika:
+  path: ./database/demo/PC---komunikační-technika.json
+  distanceDecay: 1.5
+ KL---bižuterie:
+  path: ./database/demo/KL---bižuterie.json
+  distanceDecay: 1.5
+ OST---armyshop:
+  path: ./database/demo/OST---armyshop.json
+  distanceDecay: 1.5
+ KL---hodiny:
+  path: ./database/demo/KL---hodiny.json
+  distanceDecay: 1.5
+ STAV---hobbymarket:
+  path: ./database/demo/STAV---hobbymarket.json
+  distanceDecay: 1.5
+ NAB---nábytek:
+  path: ./database/demo/NAB---nábytek.json
+  distanceDecay: 1.5
+ POTR---nápoje:
+  path: ./database/demo/POTR---nápoje.json
+  distanceDecay: 1.5
+ EL---foto-kino:
+  path: ./database/demo/EL---foto-kino.json
+  distanceDecay: 1.5
+ OBL---galanterie:
+  path: ./database/demo/OBL---galanterie.json
+  distanceDecay: 1.5
+ STAV---zahrádkářské-potřeby:
+  path: ./database/demo/STAV---zahrádkářské-potřeby.json
+  distanceDecay: 1.5
+ DROG---kosmetika,-parfumerie:
+  path: ./database/demo/DROG---kosmetika,-parfumerie.json
+  distanceDecay: 1.5
+ ZOO---chovatelské-potřeby:
+  path: ./database/demo/ZOO---chovatelské-potřeby.json
+  distanceDecay: 1.5
+ OBL---metráž:
+  path: ./database/demo/OBL---metráž.json
+  distanceDecay: 1.5
+ PAP---kancelářské-potřeby:
+  path: ./database/demo/PAP---kancelářské-potřeby.json
+  distanceDecay: 1.5
+ PAP---papírnictví:
+  path: ./database/demo/PAP---papírnictví.json
+  distanceDecay: 1.5
+ POTR---tabák,-trafika:
+  path: ./database/demo/POTR---tabák,-trafika.json
+  distanceDecay: 1.5
+ EL---elektro:
+  path: ./database/demo/EL---elektro.json
+  distanceDecay: 1.5
+ POTR---káva,-čaj,-kakao:
+  path: ./database/demo/POTR---káva,-čaj,-kakao.json
+  distanceDecay: 1.5
+ OST---zastavárna:
+  path: ./database/demo/OST---zastavárna.json
+  distanceDecay: 1.5
+ OBL---kožené-zboží:
+  path: ./database/demo/OBL---kožené-zboží.json
+  distanceDecay: 1.5
+ PC---mobilní-telefony:
+  path: ./database/demo/PC---mobilní-telefony.json
+  distanceDecay: 1.5
+ PC---počítače,-software:
+  path: ./database/demo/PC---počítače,-software.json
+  distanceDecay: 1.5
+ OBL---oděvy:
+  path: ./database/demo/OBL---oděvy.json
+  distanceDecay: 1.5
+ POTR---ryby:
+  path: ./database/demo/POTR---ryby.json
+  distanceDecay: 1.5
+ AUTO---autosalon:
+  path: ./database/demo/AUTO---autosalon.json
+  distanceDecay: 1.5
+ DROG---barvy-laky:
+  path: ./database/demo/DROG---barvy-laky.json
+  distanceDecay: 1.5
+ SP---zbraně,-střelivo:
+  path: ./database/demo/SP---zbraně,-střelivo.json
+  distanceDecay: 1.5
+ AUTO---autopříslušenství:
+  path: ./database/demo/AUTO---autopříslušenství.json
+  distanceDecay: 1.5
+ POTR---potraviny:
+  path: ./database/demo/POTR---potraviny.json
+  distanceDecay: 1.5
+ OST---zdravotnické-potřeby:
+  path: ./database/demo/OST---zdravotnické-potřeby.json
+  distanceDecay: 1.5
+ OST---klíče,-zámky:
+  path: ./database/demo/OST---klíče,-zámky.json
+  distanceDecay: 1.5
+ OST---sexshop:
+  path: ./database/demo/OST---sexshop.json
+  distanceDecay: 1.5
+ POTR---ovoce---zelenina:
+  path: ./database/demo/POTR---ovoce---zelenina.json
+  distanceDecay: 1.5
+ SP---sport:
+  path: ./database/demo/SP---sport.json
+  distanceDecay: 1.5
+ NAB---kancelářský-nábytek:
+  path: ./database/demo/NAB---kancelářský-nábytek.json
+  distanceDecay: 1.5
+ KL---starožitnosti:
+  path: ./database/demo/KL---starožitnosti.json
+  distanceDecay: 1.5
+ OST---filatelie:
+  path: ./database/demo/OST---filatelie.json
+  distanceDecay: 1.5
+ OST---dárky:
+  path: ./database/demo/OST---dárky.json
+  distanceDecay: 1.5
+ NAB---podlahové-krytiny,-dveře:
+  path: ./database/demo/NAB---podlahové-krytiny,-dveře.json
+  distanceDecay: 1.5
+ HUD---hudební-nástroje:
+  path: ./database/demo/HUD---hudební-nástroje.json
+  distanceDecay: 1.5
+ OST---antikvariát:
+  path: ./database/demo/OST---antikvariát.json
+  distanceDecay: 1.5
+ DROG---drogerie:
+  path: ./database/demo/DROG---drogerie.json
+  distanceDecay: 1.5
+ DOM---doplňky:
+  path: ./database/demo/DOM---doplňky.json
+  distanceDecay: 1.5
+ PAP---hračky:
+  path: ./database/demo/PAP---hračky.json
+  distanceDecay: 1.5
+ DOM---kuchyňské-potřeby:
+  path: ./database/demo/DOM---kuchyňské-potřeby.json
+  distanceDecay: 1.5
+ HUD---audio-a-video:
+  path: ./database/demo/HUD---audio-a-video.json
+  distanceDecay: 1.5
+ DOM---bytové-předměty:
+  path: ./database/demo/DOM---bytové-předměty.json
+  distanceDecay: 1.5

@@ -21,6 +21,7 @@ function PrioritySlider({
                 min={1}
                 max={9}
                 valueLabelDisplay="auto"
+                valueLabelFormat={(value) => value}
                 value={value}
                 onChange={(e, value) => onChange(value as number)}
             />

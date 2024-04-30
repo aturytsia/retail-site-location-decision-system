@@ -29,7 +29,7 @@ const StepHeader: React.FC<PropsType> = ({
     return (
         <div className={classes.container}>
             <h3 className={classes.title}>{title}</h3>
-            {subtitle && <p className={classes.subtitle}>{subtitle}</p>}
+            {subtitle && <div className={classes.subtitle}>{subtitle}</div>}
         </div>
     );
 }

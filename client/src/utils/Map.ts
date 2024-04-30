@@ -15,17 +15,18 @@ const initialAttribute: IAttribute = { key: "", value: "", maxValue: "" }
 const urlTemplate = "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
 
 const zoomOptions: L.Control.ZoomOptions = {
-    position: 'bottomright'  // Set position of zoom buttons
+    position: 'bottomright',  // Set position of zoom buttons
 }
 
 const heatLayerOptions: L.HeatMapOptions = {
     max: 1,
     minOpacity: 0,
     maxZoom: 20,
+    blur: 20,
     gradient: {
-        0.4: 'blue',
-        0.6: 'cyan',
-        0.7: 'lime',
+        0.2: 'blue',
+        0.4: 'cyan',
+        0.6: 'lime',
         0.8: 'yellow',
         1.0: 'red'
     }
@@ -61,7 +62,7 @@ export class Map extends L.Map {
      * @param - Options for configuring the map.
      */
     constructor(id: string, options?: L.MapOptions) {
-        super(id, options);
+        super(id, {...options, maxZoom: 15});
 
         // Set up extra configurations on map creation
         this.configure();
@@ -77,9 +78,9 @@ export class Map extends L.Map {
 
         // Add zoom buttons to the bottom right corner
         L.control.zoom(zoomOptions).addTo(this);
-
+        const layer: L.HeatLayer = L.heatLayer([], { ...heatLayerOptions });
         // For some reason if user switches off all the layers, map becomes disbaled. This line fixes it
-        this.toggleLayer(L.heatLayer([], { ...heatLayerOptions }), true)
+        this.toggleLayer(layer, true)
         
     }
 
@@ -205,6 +206,7 @@ export class Map extends L.Map {
 
         const average = avg(dataPoints.map(([, , value]) => value));
         this.heatLayer = L.heatLayer(dataPoints, { ...heatLayerOptions, max: average });
+
         this.toggleHeatLayer(prevActive);
     }
 
@@ -370,11 +372,11 @@ export class Marker extends L.Marker {
      * @returns {IAttribute[]} Array of prefilled attributes.
      */
     private getPrefilledAttributes(): IAttribute[] {
-        if (!this.map) return [initialAttribute, initialAttribute, initialAttribute];
+        if (!this.map) return [];
 
         const markers = this.map.getMarkers();
 
-        if (markers.length === 0) return [initialAttribute, initialAttribute, initialAttribute];
+        if (markers.length === 0) return [];
 
         return markers[0].getAttrbutes().map(attribute => ({ ...attribute, value: "" }));
     }

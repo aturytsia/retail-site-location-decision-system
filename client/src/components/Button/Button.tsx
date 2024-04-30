@@ -22,6 +22,8 @@ type PropsType = {
     onClick?: () => void;
     /** Style of the button. */
     style?: "primary" | "default";
+    /** Button is active */
+    active?: boolean
 }
 
 /**
@@ -33,6 +35,7 @@ const Button: React.FC<React.PropsWithChildren<PropsType>> = ({
     "data-testid": testid,
     className,
     disabled,
+    active,
     onClick,
     children,
     style = "default"
@@ -40,7 +43,8 @@ const Button: React.FC<React.PropsWithChildren<PropsType>> = ({
 
     const buttonStyles = classNames(className, classes.btn, {
         [classes.primary]: style === "primary",
-        [classes.default]: style === "default"
+        [classes.default]: style === "default",
+        [classes.active]: active
     });
 
     return (

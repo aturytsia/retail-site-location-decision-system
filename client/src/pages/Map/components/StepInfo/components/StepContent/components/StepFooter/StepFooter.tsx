@@ -39,12 +39,13 @@ const StepFooter: React.FC<PropsType> = ({
     return (
         <div className={classes.container}>
             {systemStatus !== SystemStatus.setlectPossibleLocations && (
-                <button
+                <Button
                     className={classes.btnBack}
                     onClick={getPrevSystemStatus}
+                    style="primary"
                 >
                     <Icon icon={icons.back} />
-                </button>
+                </Button>
             )}
             <Button
                 style="primary"

@@ -1,10 +1,10 @@
 .container {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     gap: 8px;
 }
 
-.btnAdd{
+.btnAdd {
     border: none;
     background-color: transparent;
     color: var(--violet);
@@ -19,39 +19,43 @@
     font-size: 18px;
 }
 
-.actions{
+.actions {
     margin-top: 8px;
     display: flex;
     justify-content: center;
 }
 
-.arrows{
+.arrows {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.inputs{
+.inputs {
     display: flex;
     flex-direction: column;
     gap: 8px;
     max-height: 200px;
     min-height: 100px;
-    overflow-y: auto;
+    overflow-y: visible;
 }
 
-.arrowBtn{
-    background-color: transparent;
-    border: none;
-    font-size: 26px;
-    cursor: pointer;
+.arrowBtn {
+    font-size: 20px;
+    width: 30px;
+    height: 30px;
 }
 
-.pagination{
+.pagination {
     margin-top: 16px;
     display: flex;
     justify-content: center;
     gap: 4px;
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 16px;
+    height: 24px;
 }
 
 .paginationCircle {
@@ -63,4 +67,36 @@
 
 .paginationCircleActive {
     background-color: var(--violet);
+}
+
+.suggestedAttributesContainer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+}
+
+.suggestedAttributesContainer>span {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--subtitle);
+}
+
+.suggestedAttributesContainer>button {
+    color: #939393;
+    background-color: #ececec;
+    border: none;
+    padding: 3px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.suggestedAttributesContainer>button:hover {
+    background-color: #ebe8ff;
+}
+
+.hint {
+    color: var(--subtitle);
+    font-size: 12px;
 }

@@ -4,7 +4,7 @@
  * @author Oleksandr Turytsia
  */
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Modal from '../../../../../../../../components/Modal/Modal';
 import { MapContext } from '../../../../../../Map';
 import Input from './components/Input/Input';
@@ -13,6 +13,25 @@ import { Icon } from '@iconify/react';
 import icons from '../../../../../../../../utils/icons';
 import classNames from 'classnames';
 import { IAttribute } from '../../../../../../../../utils/types';
+import Button from '../../../../../../../../components/Button/Button';
+import ButtonIconOnly from '../../../../../../../../components/ButtonIconOnly/ButtonIconOnly';
+
+const SUGGESTED_ATTRIBUTES = [
+    "Sales floor area",
+    "Parking",
+    "Accessibility by car",
+    "Brand recognition",
+    "Number of departments",
+    "Number of checkouts",
+    "Accessibility by foot",
+    "Visibility",
+    "Volume of passing trade",
+    "Potential market",
+    "Growth in the area",
+    "Seasonality",
+    "Distance to competition",
+    "Size of competition"
+]
 
 /**
  * Represents the properties for the DefineAttributesModal component.
@@ -27,7 +46,7 @@ type PropsType = {
     /** Callback function to close the modal. */
     onClose: () => void,
     /** Callback function to create an attribute. */
-    createAttribute: () => void,
+    createAttribute: (attributeName?: string) => void,
     /** Callback function to change an attribute. */
     changeAttribute: (attributeIndex: number, key: string, value: string, maxValue: string, isQualitative?: boolean) => void,
     /** Callback function to move to the next active marker. */
@@ -36,6 +55,16 @@ type PropsType = {
     prevActiveMarkerIndex: () => void,
     /** Callback function to delete an attribute. */
     deleteAttribute: (attributeIndex: number) => void
+
+    isBeginner: boolean
+
+    enableBeginner: () => void
+
+    disableBeginner: () => void
+
+    resetAttributes: () => void
+
+    resetAttributesRow: (key: string) => void
 }
 
 /** Keys that are disabled. */
@@ -55,9 +84,24 @@ const DefineAttributesModal: React.FC<PropsType> = ({
     prevActiveMarkerIndex,
     activeMarkerIndex,
     deleteAttribute,
-    onClose
+    onClose,
+    enableBeginner,
+    disableBeginner,
+    isBeginner,
+    resetAttributes,
+    resetAttributesRow
 }) => {
     const { map } = useContext(MapContext);
+
+    const enableBeginnerHandler = () => {
+        enableBeginner()
+        resetAttributes()
+    }
+
+    const disableBeginnerHandler = () => {
+        disableBeginner()
+        resetAttributes()
+    }
 
     /** Number of attributes associated with the active marker. */
     const attributeLength = markersAttributes[activeMarkerIndex].length;
@@ -71,16 +115,31 @@ const DefineAttributesModal: React.FC<PropsType> = ({
             onSubmit={onClose} 
             icon={icons.attributes}
             error={error}
+            headerActions={
+                <>
+                    <Button active={isBeginner} onClick={enableBeginnerHandler}>
+                        Beginner
+                    </Button>
+                    <Button active={!isBeginner} onClick={disableBeginnerHandler}>
+                        Advanced
+                    </Button>
+                </>
+            }
         >
             <div className={classes.container}>
+                <p className={classes.hint}>
+                    To optimize results, aim to define at least three attributes for each site. You can include both subjective values like visibility, as well as specific, objective data sourced from reputable online resources. The more objective information you provide, the more accurate and insightful your analysis will be.
+                </p>
                 <div className={classes.arrows}>
-                    <button className={classes.arrowBtn} onClick={prevActiveMarkerIndex}>
-                        <Icon icon={icons.arrowLeft} />
-                    </button>
+                    <ButtonIconOnly icon={icons.arrowLeft} className={classes.arrowBtn} onClick={prevActiveMarkerIndex} />
                     <span className={classes.addressName}>{map.getMarkers()[activeMarkerIndex].getName()}</span>
-                    <button className={classes.arrowBtn} onClick={nextActiveMarkerIndex}>
-                        <Icon icon={icons.arrowRight} />
-                    </button>
+                    <ButtonIconOnly icon={icons.arrowRight} className={classes.arrowBtn} onClick={nextActiveMarkerIndex} />
+                </div>
+                <div className={classes.suggestedAttributesContainer}>
+                    <span>Suggested attributes:</span>
+                    {SUGGESTED_ATTRIBUTES.filter(attributeName => !markersAttributes[activeMarkerIndex].find(({ key }) => key === attributeName)).map(attributeName => (
+                           <button key={attributeName} onClick={() => createAttribute(attributeName)}>{attributeName}</button>
+                        ))}
                 </div>
                 <div className={classes.inputs}>
                     {markersAttributes[activeMarkerIndex].map((attribute, i) => (
@@ -94,12 +153,14 @@ const DefineAttributesModal: React.FC<PropsType> = ({
                             onDelete={() => deleteAttribute(i)}
                             isDeletable={disabledKeys.includes(attribute.key)}
                             disableKey={disabledKeys.includes(attribute.key)}
-                            disableDelete={markersAttributes[activeMarkerIndex].length <= 2}
+                            disableDelete={markersAttributes[activeMarkerIndex].length <= 3}
+                            isBeginner={isBeginner}
+                            resetInputs={resetAttributesRow}
                         />
                     ))}
                     {attributeLength < 6 && (
                         <div className={classes.actions}>
-                            <button onClick={createAttribute} className={classes.btnAdd}>
+                            <button onClick={() => createAttribute()} className={classes.btnAdd}>
                                 <Icon icon={icons.plus} />Create attribute
                             </button>
                         </div>

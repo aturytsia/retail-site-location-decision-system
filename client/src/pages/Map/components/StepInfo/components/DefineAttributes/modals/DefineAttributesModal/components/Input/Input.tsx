@@ -4,12 +4,13 @@
  * @author Oleksandr Turytsia
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import classes from "./Input.module.css";
 import icons from '../../../../../../../../../../utils/icons';
 import ButtonIconOnly from '../../../../../../../../../../components/ButtonIconOnly/ButtonIconOnly';
 import Dropdown, { DropdownItemType, SelectOptionFuncType } from '../../../../../../../../../../components/Dropdown/Dropdown';
 import { reverseObject } from '../../../../../../../../../../utils/utils';
+import { Icon } from '@iconify/react';
 
 /**
  * Represents the properties for the Input component.
@@ -35,6 +36,10 @@ type PropsType = {
     disableValue?: boolean,
     /** Boolean indicating whether the attribute is qualitative. */
     isQualitative?: boolean
+    /** Switch between star input and normal input */
+    isBeginner?: boolean
+    /** Resets all the related inputs on certain action */
+    resetInputs?: (key: string) => void
 }
 
 /** Represents the options for attribute values. */
@@ -71,7 +76,9 @@ const Input: React.FC<PropsType> = ({
     disableDelete,
     disableKey,
     disableValue,
-    isQualitative = false
+    isQualitative = false,
+    isBeginner = true,
+    resetInputs
 }) => {
 
     /** Handles key change event. */
@@ -97,10 +104,17 @@ const Input: React.FC<PropsType> = ({
     /** Handles qualitative attribute change. */
     const changeIsQualitative = (): void => {
         onChange(keyValue, "", "", !isQualitative);
+        resetInputs?.(keyValue)
     }
+
+    const changeStarsValue = (starIndex: number) => {
+        onChange(keyValue, starIndex.toString(), "10", isQualitative);
+      };
+    
 
     return (
         <div className={classes.container}>
+            <div className={classes.inputContainer}>
             <input 
                 className={classes.key} 
                 value={keyValue} 
@@ -108,41 +122,59 @@ const Input: React.FC<PropsType> = ({
                 disabled={disableKey} 
                 placeholder='Name'
             />
-            {!isQualitative ? (
-                <>
-                    <input 
-                        className={classes.value} 
-                        value={value} 
-                        onChange={changeValue} 
-                        disabled={disableValue} 
-                        placeholder='Value' 
-                        type='number' 
+            {isBeginner ? (
+                <div className={classes.starContainer}>
+                    {[...Array(10)].map((_, index) => (
+                        <Icon
+                            icon={icons.star}
+                            key={index}
+                            onClick={() => changeStarsValue(index+1)}
+                            style={{
+                                cursor: 'pointer',
+                                color: index < +value ? 'var(--violet)' : 'var(--subtitle)',
+                            }}
+                        />
+                    ))}
+                </div>
+            ):(
+                !isQualitative ? (
+                    <>
+                        <input 
+                            className={classes.value} 
+                            value={value} 
+                            onChange={changeValue} 
+                            disabled={disableValue} 
+                            placeholder='Value' 
+                            type='number' 
+                        />
+                        <input 
+                            className={classes.maxValue} 
+                            value={maxValue} 
+                            onChange={changeMaxValue} 
+                            // disabled={disableValue} 
+                            placeholder='Max. value' 
+                            type='number' 
+                        />
+                    </>
+                ): (
+                    <Dropdown 
+                        value={reverseObject(optionsValue)[value] ?? ""} 
+                        items={convertOptionsToItems(optionsValue)}
+                        className={classes.dropdown}
+                        onChange={changeDropdownValue}                
                     />
-                    <input 
-                        className={classes.maxValue} 
-                        value={maxValue} 
-                        onChange={changeMaxValue} 
-                        // disabled={disableValue} 
-                        placeholder='Max. value' 
-                        type='number' 
-                    />
-                </>
-            ): (
-                <Dropdown 
-                    value={reverseObject(optionsValue)[value] ?? ""} 
-                    items={convertOptionsToItems(optionsValue)}
-                    className={classes.dropdown}
-                    onChange={changeDropdownValue}                
-                />
+                )
             )}
+            </div>
             {!isDeletable && (
                 <div className={classes.actions}>
-                    <ButtonIconOnly 
+                    {!isBeginner && (
+                        <ButtonIconOnly 
                         icon={isQualitative ? icons.abcOff : icons.numbersOff}
                         onClick={changeIsQualitative} 
                     />
+                    )}
                     <ButtonIconOnly 
-                        disabled={disableDelete}
                         icon={icons.delete}
                         onClick={onDelete} 
                     />

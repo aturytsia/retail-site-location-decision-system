@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import { Icon } from '@iconify/react'
 import { IconType } from '../../../../utils/icons'
 import { NavLink } from 'react-router-dom'
+import { MapContext } from '../../../../pages/Map/Map'
 
 type PropsType = {
     icon: IconType
@@ -16,10 +17,13 @@ function NavButton({
     to
 }: PropsType) {
 
+    const { isInfoActive, enableInfo } = useContext(MapContext)
+
     return (
         <NavLink
             to={to}
-            className={({ isActive }) => classNames(classes.btn, { [classes.btnActive]: isActive })}>
+            onClick={enableInfo}
+            className={({ isActive }) => classNames(classes.btn, { [classes.btnActive]: isActive && isInfoActive })}>
             <Icon icon={icon} />
         </NavLink>
     )

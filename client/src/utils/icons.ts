@@ -30,7 +30,8 @@ const icons = {
     data: "bxs:data",
     open: "majesticons:open",
     error: "material-symbols:error",
-    restart: "iconamoon:restart-bold"
+    restart: "iconamoon:restart-bold",
+    star: "tabler:star-filled"
 }
 
 /**

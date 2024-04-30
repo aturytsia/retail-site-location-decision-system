@@ -6,10 +6,20 @@
     bottom: 0; */
     position: relative;
     flex: 1;
-
 }
 
 .map {
     height: 100%;
     width: 100%;
+}
+
+.dropdown {
+    width: 100%;
+    margin-bottom: 4px;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }

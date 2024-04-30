@@ -6,6 +6,7 @@ import classes from "./DefinePrioritiesModal.module.css"
 import PrioritySlider from './components/PrioritySlider/PrioritySlider'
 import { ScoreMapType } from '../../../../../../../../utils/types'
 import Button from '../../../../../../../../components/Button/Button'
+import Emph from '../../../../../../../../components/Emph/Emph'
 
 type PropsType = {
     priorities: ScoreMapType
@@ -35,6 +36,8 @@ function DefinePrioritiesModal({
         setAttributeIndex(prev => (prev - 1) >= 0 ? prev - 1 : prev)
     }
 
+    const otherAttributes = Object.keys(priorities[currentAttribute])
+
     return (
         <Modal
             title="Compare attributes"
@@ -49,9 +52,12 @@ function DefinePrioritiesModal({
                 </>
             }>
             <div className={classes.container}>
-                <p>Please compare attribute "{currentAttribute}" against others:</p>
+                <p>Please compare attribute <Emph>{currentAttribute}</Emph> against others:</p>
+                <p className={classes.hint}>
+                    For example if you specify value 5 for {otherAttributes[0]} it would be the same as if you said that {currentAttribute} is 5 times more important than {otherAttributes[0]}.
+                </p>
                 <div className={classes.sliders}>
-                    {Object.keys(priorities[currentAttribute]).map((otherAttribute, i) => (
+                    {otherAttributes.map((otherAttribute, i) => (
                         <PrioritySlider
                             key={i}
                             value={priorities[currentAttribute][otherAttribute]}

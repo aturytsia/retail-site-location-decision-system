@@ -30,6 +30,8 @@ type PropsType = {
     icon: IconType,
     /** Additional actions to include in the modal footer. */
     actions?: React.ReactNode
+    /** Actions that will be displayed in the header. Primary usage for this are tabs */
+    headerActions?: React.ReactNode
 }
 
 /**
@@ -54,7 +56,8 @@ const Modal: React.FC<PropsWithChildren<PropsType>> = ({
     icon,
     onClose,
     onSubmit,
-    actions
+    actions,
+    headerActions
 }) => {
 
     return (
@@ -62,13 +65,17 @@ const Modal: React.FC<PropsWithChildren<PropsType>> = ({
             <div className={classes.outer} onClick={onClose}>
                 <div className={classes.container} onClick={stopPropagation}>
                     <header className={classes.header}>
-                        <div className={classes.headerTitle}>
-                            <Icon icon={icon} height={25} width={25} />
-                            {title}
-                        </div>
-                        <button className={classes.close} onClick={onClose}>
+                        <div className={classes.headerContent}>
+                            <div className={classes.headerTitle}>
+                                <Icon icon={icon} height={25} width={25} />
+                                {title}
+                            </div>
+                            <button className={classes.close} onClick={onClose}>
                             <Icon icon={icons.close} height={25} width={25} />
                         </button>
+                        </div>
+                        <div className={classes.headerActions}>{headerActions}</div>
+                        
                     </header>
                     <div className={classes.content}>{children}</div>
                     <footer className={classes.footer}>

@@ -11,6 +11,8 @@ import Step from './components/Step/Step';
 import { MapContext } from '../../Map';
 import Container from '../StepInfo/components/Container/Container';
 import { StepInfoTest } from '../../../../utils/definitions';
+import SectionTitle from '../Layers/components/SectionTitle/SectionTitle';
+import Emph from '../../../../components/Emph/Emph';
 
 /**
  * Array containing information about each step, including text and icon.
@@ -43,22 +45,30 @@ const StepsContainer: React.FC<PropsWithChildren> = ({
     children
 }) => {
     // Access systemStatus from the MapContext
-    const { systemStatus } = useContext(MapContext);
+    const { systemStatus, dataset } = useContext(MapContext);
 
     return (
         <Container data-testid={StepInfoTest.stepContainer}>
-            <div className={classes.steps}>
-                {steps.map(({ text, icon }, i) => (
-                    <Step
-                        key={icon}
-                        text={text}
-                        icon={icon}
-                        isCurrent={systemStatus === i}
-                        isDone={systemStatus > i}
-                    />
-                ))}
-            </div>
-            {children}
+            <SectionTitle text='Process' />
+            {dataset ? (
+                <>
+                    <div className={classes.steps}>
+                        {steps.map(({ text, icon }, i) => (
+                            <Step
+                                key={icon}
+                                text={text}
+                                icon={icon}
+                                isCurrent={systemStatus === i}
+                                isDone={systemStatus > i}
+                            />
+                        ))}
+                    </div>
+                    {children}
+                </>
+            ) : (
+                <div className={classes.message}>Please, select <Emph>Business type</Emph> in order to initiate site selection process!</div>
+            )}
+            
         </Container>
     );
 };

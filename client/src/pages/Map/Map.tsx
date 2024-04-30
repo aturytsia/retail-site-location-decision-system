@@ -17,6 +17,12 @@ import useMap, { buildMap, initialConfig } from '../../hooks/useMap/useMap'
 import { Outlet } from 'react-router-dom'
 import Loading from './components/Loading/Loading'
 import Error from './components/Error/Error'
+import Dropdown, { DropdownItemType } from '../../components/Dropdown/Dropdown'
+import SectionTitle from './components/Layers/components/SectionTitle/SectionTitle'
+import InputContainer from './components/Layers/components/InputContainer/InputContainer'
+import ButtonIconOnly from '../../components/ButtonIconOnly/ButtonIconOnly'
+import icons from '../../utils/icons'
+import NavPanel from '../../components/NavPanel/NavPanel'
 
 export type PossibleLocationAddType = (latlng: L.LatLng, map: L.Map) => void
 export type PossibleLocationDeleteType = (index: number) => void
@@ -56,6 +62,9 @@ export type MapContextType = {
     toggleGridLayer: () => void, 
     toggleHeatLayer: () => void,
     changeDataset: (dataset: string) => Promise<void>
+    businessTypeItems: DropdownItemType[]
+    isInfoActive: boolean
+    enableInfo: () => void
 }
 
 export const initialMapContext = {
@@ -76,7 +85,10 @@ export const initialMapContext = {
     toggleCompetitorsLayer: (): void => { /* Default */ },
     toggleGridLayer: (): void => { /* Default */ }, 
     toggleHeatLayer: (): void => { /* Default */ },
-    changeDataset: (): Promise<void> => { return Promise.resolve() }
+    changeDataset: (): Promise<void> => { return Promise.resolve() },
+    businessTypeItems: [],
+    isInfoActive: true,
+    enableInfo: () => {}
 }
 
 export const MapContext = React.createContext<MapContextType>(initialMapContext)
@@ -145,6 +157,7 @@ const Map: React.FC = () => {
     const [score, setScore] = useState<ScoreMapType>({})
     const [results, setResults] = useState<Record<string, number>>({})
     const [consistency, setConsistency] = useState<number>(0)
+    const [isInfoActive, setIsInfoActive] = useState<boolean>(true)
 
     const [currentStep, setCurrentStep] = useState<SystemStatus>(SystemStatus.setlectPossibleLocations)
 
@@ -174,10 +187,11 @@ const Map: React.FC = () => {
     const onMapClick: L.LeafletMouseEventHandlerFn = useCallback(
         (e) => {
             if(currentStep !== SystemStatus.setlectPossibleLocations) return
+            if(!dataset) return
     
             setMarkers(prev => prev.length === 5 ? prev : [...prev, new Marker(e.latlng, map)])
         },
-        [currentStep, map]
+        [currentStep, map, dataset]
     )
 
     useEffect(
@@ -232,6 +246,12 @@ const Map: React.FC = () => {
         [currentStep, map]
     )
 
+    const enableInfo = () => {
+        setIsInfoActive(true)
+    }
+    
+
+    const businessTypeItems = [{id: "", value: ""} ,...config.datasets.map(name => ({ id: name, value: name }))]
 
     const contextValue: MapContextType = {
         consistency,
@@ -242,6 +262,7 @@ const Map: React.FC = () => {
         score,
         results,
         systemStatus: currentStep,
+        businessTypeItems,
         resetSystem,
         deleteMarker,
         saveScoreAttributesResult,
@@ -251,17 +272,42 @@ const Map: React.FC = () => {
         toggleCompetitorsLayer,
         toggleGridLayer, 
         toggleHeatLayer,
-        changeDataset
+        changeDataset,
+        enableInfo,
+        isInfoActive
+    }
+
+    /**
+     * Handles the change event of the dataset dropdown.
+     * @param value - The selected dataset value.
+     */
+    const changeDropdown = (value: string | null): void => {
+        changeDataset(value as string);
     }
     
     return (
         <MapContext.Provider value={contextValue}>
+            <NavPanel />
             <div className={classes.container}>
                 {isFetching && <Loading />}
                 {isError && <Error />}
-                <MapInfo>
-                    <Outlet />
-                </MapInfo>
+                {isInfoActive && (
+                    <MapInfo>
+                        <div className={classes.actions}>
+                            <ButtonIconOnly icon={icons.close} onClick={() => setIsInfoActive(false)} />
+                        </div>
+                        <SectionTitle text='Data' />
+                        <InputContainer labelText='Business type'>
+                            <Dropdown
+                                className={classes.dropdown}
+                                value={dataset as string}
+                                items={config.datasets.map(name => ({ id: name, value: name }))}
+                                onChange={changeDropdown}
+                            />
+                        </InputContainer>
+                        <Outlet />
+                    </MapInfo>
+                )}
             </div>
         </MapContext.Provider>
     )

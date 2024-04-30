@@ -1,5 +1,7 @@
 .container {
-    margin-top: 12px;
     width: 100%;
     /* overflow: scroll; */
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }

@@ -7,6 +7,7 @@ import React, { MouseEventHandler } from 'react';
 import classes from "./ButtonIconOnly.module.css";
 import { IconType } from '../../utils/icons';
 import { Icon } from '@iconify/react';
+import classNames from 'classnames';
 
 /**
  * Props for the ButtonIconOnly component.
@@ -18,6 +19,8 @@ type PropsType = {
     onClick?: MouseEventHandler<HTMLButtonElement>,
     /** Specifies whether the button is disabled. */
     disabled?: boolean
+    /** Custom className */
+    className?: string
 }
 
 /**
@@ -28,11 +31,14 @@ type PropsType = {
 const ButtonIconOnly: React.FC<PropsType> = ({
     icon,
     onClick,
-    disabled
+    disabled,
+    className
 }) => {
 
+  const buttonStyle = classNames(classes.container, className)
+
   return (
-    <button className={classes.container} onClick={onClick} disabled={disabled}>
+    <button className={buttonStyle} onClick={onClick} disabled={disabled}>
       <Icon 
         className={classes.icon}
         icon={icon} 

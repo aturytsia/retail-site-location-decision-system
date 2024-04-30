@@ -25,7 +25,6 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Main>
-        <NavPanel />
         <Routes>
           <Route path="/" element={<Map />}>
             <Route index element={

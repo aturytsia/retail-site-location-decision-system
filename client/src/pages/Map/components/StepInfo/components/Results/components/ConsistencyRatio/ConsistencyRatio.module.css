@@ -8,6 +8,10 @@
 
 .label {}
 
+.danger {
+    color: var(--red);
+}
+
 .value {
     font-weight: 600;
 }
