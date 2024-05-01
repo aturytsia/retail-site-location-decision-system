@@ -108,7 +108,7 @@ const Input: React.FC<PropsType> = ({
     }
 
     const changeStarsValue = (starIndex: number) => {
-        onChange(keyValue, starIndex.toString(), "10", isQualitative);
+        onChange(keyValue, starIndex.toString(), "5", isQualitative);
       };
     
 
@@ -124,7 +124,7 @@ const Input: React.FC<PropsType> = ({
             />
             {isBeginner ? (
                 <div className={classes.starContainer}>
-                    {[...Array(10)].map((_, index) => (
+                    {[...Array(5)].map((_, index) => (
                         <Icon
                             icon={icons.star}
                             key={index}
