@@ -45,9 +45,7 @@ def get_config() -> tuple[Config, bool]:
     is_testing = os.getenv("TESTING") == "True"
 
     config = read_config("./tests/init.yaml") if is_testing else CONFIG
-
     estimate_geocompetition(config, is_testing)
-
     return config, is_testing
 
 class Location(BaseModel):
@@ -60,6 +58,8 @@ class DatasetRequired(BaseModel):
 class FinalBody(BaseModel):
     locations: list[Location]
     score: dict[str, dict[str, int]]
+
+grid = get_squares_list()
 
 @app.get(Urls.Test.value, tags=["Test"])
 def test():
@@ -86,7 +86,7 @@ async def map():
     return {
         "center": get_coordinates(config.area),
         "datasets": list(config.competitors.keys()),
-        "grid": get_squares_list()
+        "grid": grid
     }
 
 @app.get(Urls.Customers.value, tags=["Customers"])

@@ -5,6 +5,7 @@ __maintainer__ = "Oleksandr Turytsia"
 __email__ = "xturyt00@stud.fit.vutbr.cz"
 
 import sys
+import os
 import osmnx as ox
 import networkx as nx
 import pandas as pd
@@ -412,6 +413,18 @@ def estimate_geocompetition(config: Config, is_testing: bool = False):
     def estimate(dataset_key: str, path: str, distance_decay: float = 1.5) -> None:
         competitors = read_dataset(path)
         _ = get_geocompetition(customers, competitors, f"./{'tests' if is_testing else 'data'}/{dataset_key}.json", True, distance_decay)
+
+    should_estimate = False
+    # Checking if any dataset is missing
+    for dataset_key, competitor in config.competitors.items():
+        dataset_path = f"./{'tests' if is_testing else 'data'}/{dataset_key}.json"
+        if not os.path.exists(dataset_path):
+            should_estimate = True
+            break
+
+    # If all datasets are present, no estimation needed
+    if not should_estimate:
+        return
 
     threads = []
     for dataset_key, competitor in config.competitors.items():

@@ -25,7 +25,6 @@ class Config(BaseModel):
     customers: str
     competitors: dict[str, CompetitorsConfig]
 
-
 def read_config(path: str = 'init.yaml') -> Config:
     # Read and process your custom YAML file
     try:

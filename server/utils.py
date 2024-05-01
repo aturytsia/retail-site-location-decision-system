@@ -18,6 +18,8 @@ from settings import (
     GRAPH
 )
 
+CACHE_COORDINATES = {}
+
 def get_coordinates(place: str) -> Optional[tuple[float, float]]:
     """
     Get the coordinates (latitude and longitude) of a place.
@@ -37,11 +39,17 @@ def get_coordinates(place: str) -> Optional[tuple[float, float]]:
         >>> get_coordinates("New York City")
         (40.7127281, -74.0060152)
     """
+
+    if place in CACHE_COORDINATES:
+        return CACHE_COORDINATES[place]
+
     geolocator = Nominatim(user_agent="my_app")
     location: Location = geolocator.geocode(place) # type: ignore
 
+    CACHE_COORDINATES[place] = (location.latitude, location.longitude)
+
     if location:
-        return (location.latitude, location.longitude)
+        return  CACHE_COORDINATES[place]
     else:
         return None
     
