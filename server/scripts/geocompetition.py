@@ -15,6 +15,7 @@ from shapely.geometry import Point
 import threading
 import json
 from scipy.stats import gaussian_kde
+import time as tm
 
 from settings import (
     CONFIG,
@@ -232,6 +233,7 @@ def read_from_cache(path: str) -> pd.DataFrame | None:
     
 def save_to_cache(data: list[tuple[float, float, float]], path: str) -> None:
     try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, 'w') as json_file:
             json.dump(data, json_file)
     except OSError as e:
@@ -245,7 +247,7 @@ def get_geocompetition(
     distance_decay: float = 1.5
 ) -> list[tuple[float, float, float]]:
     
-    # print(f"Estimating {cache_path}")
+    global tm
 
     debug("Checking if data was already evaluated...")
     
@@ -359,24 +361,34 @@ def get_geocompetition(
         probabilities_list.append(np.array(probabilities))
 
 
+    result = gdf_customers_merged
+        
     # Sometimes probabilities_list contains differently sized arrays, for this reason we add padding
     max_length = max(len(arr) for arr in probabilities_list)
+
+    # Pad the index of result to match the length of overall_probability
+    padded_index = result.index.union(pd.RangeIndex(max_length))
+
+    # Reindex result with the padded index
+    result = result.reindex(padded_index)
     
     padded_probabilities_list = [np.pad(arr, (0, max_length - len(arr)), mode="constant") for arr in probabilities_list]
-    
+
     # All the probabilites are averaged. It calculates average probability of the customers of visiting all the competitors
     overall_probability = np.sum(padded_probabilities_list, axis=0) / len(padded_probabilities_list)
-    
-    result = gdf_customers_merged
-    
+
+    # Set the index of overall_probability to match the index of result
+    overall_probability_df = pd.DataFrame(overall_probability, index=result.index)
+
     # Add average probability of visiting all the competitors to the customers
-    result["probability"] = overall_probability # TODO comment 1 -
-    
+    result["probability"] = overall_probability_df
+
     result.drop(columns=["geometry", "index_right", "center"], inplace=True)
     result = result.dropna()
     result = result.map(fix_float)
 
     result = np.array([(row['y'], row['x'], row['probability']) for _, row in result.iterrows()])
+
     customers = np.array(customers)
 
     people_latitudes = customers[:, 0]
@@ -405,6 +417,8 @@ def get_geocompetition(
         save_to_cache(data, cache_path)
     
     return data
+    
+    
 
 
 def estimate_geocompetition(config: Config, is_testing: bool = False):
@@ -425,6 +439,8 @@ def estimate_geocompetition(config: Config, is_testing: bool = False):
     # If all datasets are present, no estimation needed
     if not should_estimate:
         return
+    
+    start_time = tm.time()
 
     threads = []
     for dataset_key, competitor in config.competitors.items():
@@ -435,3 +451,9 @@ def estimate_geocompetition(config: Config, is_testing: bool = False):
     # Wait for all threads to complete
     for thread in threads:
         thread.join()
+
+    end_time = tm.time()
+
+    duration = end_time - start_time
+
+    print(f"Get_geocompetition execution time: {duration}\nNumber of threads: {len(threads)}")

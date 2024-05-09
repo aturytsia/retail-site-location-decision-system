@@ -7,6 +7,7 @@ from pydantic import BaseModel
 import osmnx as ox
 import networkx as nx
 from enum import Enum
+from typing import Union
 
 class Urls(Enum):
     Test = "/test"
@@ -18,7 +19,7 @@ class Urls(Enum):
 
 class CompetitorsConfig(BaseModel):
     path: str
-    distanceDecay: float
+    distanceDecay: float = 1.75
 
 class Config(BaseModel):
     area: str

@@ -1,13 +1,12 @@
 area: "Brno, Czech Republic"
-customers: "./database/demo/customers.json"
+customers: ./database/demo/customers.json
 competitors:
  AUTO---autobazar:
   path: ./database/demo/AUTO---autobazar.json
-  distanceDecay: 1.5
  SP---sportovní-oděvy:
   path: ./database/demo/SP---sportovní-oděvy.json
   distanceDecay: 1.5
- AUTO---motopříslušenství:
+ AUTO---motopříslušenství: 
   path: ./database/demo/AUTO---motopříslušenství.json
   distanceDecay: 1.5
  OST---knihy:

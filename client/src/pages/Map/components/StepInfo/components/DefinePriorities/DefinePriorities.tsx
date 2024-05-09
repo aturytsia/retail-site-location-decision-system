@@ -19,7 +19,7 @@ const getPriorities = (markersAttributes: IAttribute[][]): ScoreMapType => {
 
     return markersAttributes[0]
         .slice(0, -1)
-        .reduce((acc, { key }, i) => ({ ...acc, [key]: markersAttributes[0].slice(i+1).reduce((acc, { key }) => ({ ...acc, [key]: 5 }),{}) }),{});
+        .reduce((acc, { key }, i) => ({ ...acc, [key]: markersAttributes[0].slice(i+1).reduce((acc, { key }) => ({ ...acc, [key]: 1 }),{}) }),{});
 };
 
 /** Updates the score map with new priorities. */

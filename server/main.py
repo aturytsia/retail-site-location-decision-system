@@ -28,7 +28,6 @@ from utils import (
 origins = [
     "http://localhost:3000",
 ]
-    
 
 app = FastAPI()
 
@@ -47,6 +46,8 @@ def get_config() -> tuple[Config, bool]:
     config = read_config("./tests/init.yaml") if is_testing else CONFIG
     estimate_geocompetition(config, is_testing)
     return config, is_testing
+
+get_config()
 
 class Location(BaseModel):
     name: str

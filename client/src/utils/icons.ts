@@ -31,7 +31,8 @@ const icons = {
     open: "majesticons:open",
     error: "material-symbols:error",
     restart: "iconamoon:restart-bold",
-    star: "tabler:star-filled"
+    star: "tabler:star-filled",
+    help: "material-symbols:help"
 }
 
 /**

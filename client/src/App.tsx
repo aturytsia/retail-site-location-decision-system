@@ -16,6 +16,7 @@ import Main from "./components/Main/Main";
 import StepsContainer from "./pages/Map/components/StepsContainer/StepsContainer";
 import StepInfo from "./pages/Map/components/StepInfo/StepInfo";
 import Layers from "./pages/Map/components/Layers/Layers";
+import Help from "./pages/Help/Help";
 
 /** The root element for floating components. */
 export const floatingRoot = document.getElementById("portal")
@@ -36,6 +37,7 @@ const App: React.FC = () => {
               <Layers />
             } />
           </Route>
+          <Route path="/help" element={<Help />}/>
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Main>
