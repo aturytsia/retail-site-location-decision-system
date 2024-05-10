@@ -1,0 +1,140 @@
+\chapter{Geographical Information Systems}
+\label{ch:3}
+
+In today's rapidly advancing technological world, the integration of Geographical Information Systems (GIS) has become crucial in various fields, including retail location decision systems. GIS offers a powerful toolset for capturing, analyzing, and visualizing spatial data, providing valuable insights that aid decision-making processes. This section explores the base concepts and applications of GIS \cite{gis2018tools}.
+
+\section{Geographic Information System}
+A Geographic Information System (GIS) is an informational system that analyzes and displays geographically referenced information which is attached to a unique location. It is a useful tool for individuals and businesses to grasp how things are arranged in space. It helps compare the locations of various elements to uncover their connections. For instance, on a single map, you could have one layer showing potential retail locations and another layer indicating factors like customer demographics and competitor locations. This kind of map could assist in deciding the best spots for opening new stores, making the process of choosing retail locations more informed and effective \cite{gis2018geographic, roig2013retail}.
+
+\begin{figure}[ht]
+	\centering
+	\includesvg[width=0.7\textwidth]{obrazky-figures/ch3/gis-components.svg}
+	\caption{A depiction of GIS components \cite{gis2018geographic}}
+	\label{fig:gis}
+\end{figure}
+
+GIS system includes such components as: 
+
+\begin{itemize}
+    \item \textbf{Hardware}---GIS relies on a variety of hardware components, including computers, servers, and data collection devices. These devices serve as the backbone for processing and managing spatial information \cite{gis2018geographic}.
+    \item \textbf{Software}---specialized programs form the software component of GIS, providing the tools and interfaces necessary for manipulating, analyzing, and visualizing spatial data. These software applications enable users to perform tasks ranging from simple map creation to complex spatial analyses \cite{gis2018geographic}.
+    \item \textbf{Data}---heart of any GIS system. Spatial data includes information with a location paired with relevant attributes. The data component forms a comprehensive database of spatial information that serves as the foundation for GIS analysis \cite{gis2018geographic}.
+    \item \textbf{Users}---GIS involves a diverse set of users with distinct roles. Data processors engage in collecting, inputting, and managing spatial data. GIS managers oversee the system's overall operation and coordinate its use within an organization. Recipients of spatial information, which could be decision-makers or end-users, benefit from the insights and visualizations provided by GIS to inform their decision-making processes \cite{gis2018geographic}.
+\end{itemize}
+
+\section{Data Formats}
+
+GIS applications may include cartographic data, photographic data, digital data, or data in spreadsheets \cite{gis2018geographic} (Figure \ref{fig:gis-data-format}).
+
+\begin{figure}[ht]
+	\centering
+	\includesvg[width=1\textwidth]{obrazky-figures/ch3/gis-formats.svg}
+	\caption{A depiction of GIS data formats \cite{gis2018geographic}}
+	\label{fig:gis-data-format}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Cartographic Data}---refers to information typically found on maps. It includes features such as roads, rivers, political boundaries, and other geographic elements represented in a graphical form.
+    \item \textbf{Photographic Data}---involves images captured by various sources, including satellite imagery, aerial photography, or ground-based photographs. These images provide a visual representation of the Earth's surface.
+    \item \textbf{Digital Data}---refers to information stored in a digital format, which can include vector data (points, lines, polygons) and raster data (grids of pixels representing surfaces).
+    \item \textbf{Data in Spreadsheets}---includes information in table form, which is in rows and columns.
+\end{itemize}
+
+\subsection{Spatial Relationships}
+
+GIS technology serves as a powerful tool for visualizing spatial relationships and depicting linear networks, enhancing understanding of geographical features. 
+
+\begin{figure}[ht]
+	\centering
+	\includesvg[width=1\textwidth]{obrazky-figures/ch3/linear-network.svg}
+	\caption{A depiction of the linear networks}
+	\label{fig:gis-linear-networks}
+\end{figure}
+
+Linear networks, also known as geometric networks, find representation in GIS through elements like roads, rivers, and utility grids (Figure \ref{fig:gis-linear-networks}).
+
+There are two kinds of edges:
+\begin{itemize}
+    \item \textbf{Simple Edges}---are straight lines connecting two neighbouring junctions. Resources go in at one end and come out at the other.
+    \item \textbf{Complex Edges}---involve a network of connected lines with two or more junctions. Resources move from one end to the other, but they can also be diverted along the edge without needing to split the entire edge feature.
+\end{itemize}
+
+Junctions indicate the positions where edges either meet or terminate. A junction can link two or more edges, enabling the smooth transfer of a commodity (such as traffic or water) from one edge to another.
+
+\begin{figure}[ht]
+	\centering
+	\includesvg[width=1\textwidth]{obrazky-figures/ch3/gis-projections.svg}
+	\caption{A depiction of different map projections (Adopted from \cite{battersby2017})}
+	\label{fig:gis-map-projections}
+\end{figure}
+
+The manipulation of data often becomes necessary in GIS due to variations in map projections. A projection, the method of transforming information from the Earth's curved surface to a flat medium like paper or a computer screen, introduces distortions (Figure \ref{fig:gis-map-projections}). Different projections prioritize either maintaining accurate sizes or shapes of geographical features, but achieving both simultaneously is impractical.
+
+% % Uncomment this to switch to landscape oriented A3 paper
+% % \eject \pdfpagewidth=420mm
+
+\newpage
+
+\subsection{Representation of Geospatial Data}
+
+Digitalizing real-world geospatial data is essential for working with and storing it on a computer. The utilization of basic geometric shapes is a common method to describe objects in the real world because they are suitable to be stored in database systems \cite{schneider1999spatial}. These types of data are commonly referred to as \textit{spatial data types}, covering categories like point, line, and region. Additionally, more complex types such as partitions and graphs (networks) can be included. Spatial data types serve as a foundational abstraction, enabling the modelling of the geometric structure, relationships, properties, and operations with objects in space \cite{schneider1999spatial}.
+
+\begin{figure}[ht]
+    \centering
+    \includesvg[width=0.8\textwidth]{obrazky-figures/ch3/gis-data-types.svg}
+    \caption{A depiction of points, lines and polygons on a map (Adopted from \cite{sumer2016promoting})}
+    \label{fig:gis-data-types}
+\end{figure}
+
+\newpage
+
+\begin{itemize}
+    \item \textbf{Point}---a point is a basic geometric entity that represents a single, precise location in space. It has no length, width, or area; it simply denotes a specific coordinate on a map $(x, y)$ or in a three-dimensional space $(x, y ,z)$ (Figure \ref{fig:gis-data-types}). Points can define the location of a city on a map or the position of a landmark.
+    \item \textbf{Line}---a line is a geometric object that extends infinitely in both directions, characterized by length but no width or area. In spatial data, a line is often used to represent linear features connecting two or more points (Figure \ref{fig:gis-data-types}). With a line, it is possible to define a road on a map, a river on a terrain model, or a flight path connecting two airports.
+    \item \textbf{Area}---an area, also known as a polygon, is a two-dimensional geometric shape with a defined boundary. It encloses a space and has both length and width. Areas are used to represent the extent of geographical features (Figure \ref{fig:gis-data-types}). The area can define the boundary of a park on a map, the shape of a lake, or the footprint of a building on a site plan.
+\end{itemize}
+
+\subsection{Storing Geospatial Data}
+
+GeoJSON is a widely used format for representing geospatial data and provides a simple and lightweight structure for encoding different types of geometry. In this section, we will explore how point features can be stored in GeoJSON, offering a clear way to describe geographic entities \cite{butler2016geojson}.
+
+Here is a simple example of the GeoJSON format (Listing \ref{lst:geojson}).
+
+\begin{lstlisting}[caption={Example of a GeoJSON point feature.}, label=lst:geojson]
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [49.06, 13.23]
+  },
+  "properties": {
+    "name": "Sample Point",
+    "description": "A brief description of the point feature"
+  }
+}
+\end{lstlisting}
+
+GeoJSON supports several types of geometric objects, allowing it to represent various spatial features. According to \cite{butler2016geojson}, the primary geometric object types in GeoJSON are:
+
+\begin{itemize}
+    \item \textbf{Point}---represents a single geographic point and is defined by its coordinates, which are typically given as $(longitude, latitude)$ or $(x, y)$ depending on the coordinate reference system.
+    \item \textbf{LineString}---represents a sequence of two or more geographic points connected by straight line segments.
+    \item \textbf{Polygon}---represents a closed, non-self-intersecting ring of coordinates.
+    \item \textbf{MultiPoint}---represents a collection of points.
+    \item \textbf{MultiLineString}---represents a collection of LineString geometries.
+    \item \textbf{MultiPolygon}---represents a collection of Polygon geometries.
+    \item \textbf{GeometryCollection}---represents a collection of heterogeneous geometries.
+    \item \textbf{Feature}---is a fundamental building block in GeoJSON. It represents a geographic feature and consists of two main components: a geometry object, representing the spatial aspect and a properties object, containing additional non-spatial attributes or metadata.
+    \item \textbf{FeatureCollection}---represents a collection of Feature geometries.
+\end{itemize}
+
+\section{GIS Data Processing}
+
+Geo-data processing involves working with spatial data by manipulating, analyzing, and transforming it. GIS offers a variety of tools to assist in these tasks, including geocoding, distance analysis, spatial joint, and spatial trend analysis \cite{gis2018tools}.
+
+\begin{itemize}
+    \item \textbf{Geocoding}---a technique employed to pinpoint the location of objects or individuals globally. This process involves converting a postal address, which serves as an implicit geographic reference, into explicit spatial coordinates (Latitude and Longitude). It translates address information into precise geographical coordinates, facilitating accurate mapping and location identification \cite{gis2018tools}.
+    \item \textbf{Distance Analysis}---a tool employed to determine the nearest objects to a specific point, compute the area of a polygon, and generate buffer zones around these objects.
+    \item \textbf{Spatial Joint}---serves the purpose of merging attribute data from two distinct datasets, relying on their spatial relationships. In this process, features from a ``join`` dataset are paired with features from a ``target`` dataset, determined by their spatial proximity or intersection. The attributes of these matched features are amalgamated, resulting in a new dataset that incorporates attributes from both of the original datasets.
+    \item \textbf{Spatial Trend Analysis}---is a tool that entails overlaying two layers of objects, emphasizing statistical indicators derived from their spatial relationship. For example, this tool can be instrumental in identifying areas with high population density but limited access to retail services.
+\end{itemize}
