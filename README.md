@@ -118,10 +118,11 @@ Once it is done, you can run the server:
 npm start
 ```
 
-As the second step, let's activate virual environment for the server. Go to the `server` folder and activate it:
+As the second step, let's activate virual environment for the server. Go to the `server` folder, create virtual environment and then activate it:
 
 ```bash
 cd server
+python -m venv env
 source /env/bin/activate
 ```
 
